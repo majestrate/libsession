@@ -1,2 +1,2 @@
-add_subdirectory(libonionrequests)
-add_subdirectory(SQLiteCpp)
+add_subdirectory(libonionrequests EXCLUDE_FROM_ALL)
+add_subdirectory(SQLiteCpp EXCLUDE_FROM_ALL)
