@@ -1,0 +1,2 @@
+add_subdirectory(libonionrequests)
+add_subdirectory(SQLiteCpp)

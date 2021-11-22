@@ -1,0 +1,6 @@
+[submodule "external/libonionrequests"]
+	path = external/libonionrequests
+	url = https://github.com/majestrate/libonionrequests
+[submodule "external/SQLiteCpp"]
+	path = external/SQLiteCpp
+	url = https://github.com/SRombauts/SQLiteCpp
