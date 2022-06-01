@@ -1,2 +1,3 @@
 add_subdirectory(libonionrequests EXCLUDE_FROM_ALL)
 add_subdirectory(SQLiteCpp EXCLUDE_FROM_ALL)
+add_subdirectory(CLI11 EXCLUDE_FROM_ALL)

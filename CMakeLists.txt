@@ -23,7 +23,7 @@ endif()
 
 project(libsession
     VERSION 0.0.1
-    DESCRIPTION "libession session - C++ implementation of session protocol"
+    DESCRIPTION "libsession session - C++ implementation of session protocol"
     LANGUAGES ${LANGS})
 
 include(CheckCXXSourceCompiles)
@@ -36,22 +36,29 @@ add_subdirectory(external)
 
 find_package(PkgConfig REQUIRED)
 find_package(Protobuf REQUIRED)
+find_package(spdlog REQUIRED)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS session/session.proto)
+
+add_library(session-message
+  STATIC
+  ${PROTO_SRCS}
+  session/message/base.cpp
+  session/message/parser.cpp
+  session/message/serialize.cpp)
+
 add_library(session
   session/client.cpp
   session/cryptography.cpp
-  session/message_base.cpp
-  session/message_parser.cpp
   session/message_store.cpp
   session/snode_api.cpp
-  session/swarm.cpp
-  ${PROTO_SRCS})
+  session/swarm.cpp)
 
-target_include_directories(session PUBLIC ${Protobuf_INCLUDE_DIRS})
-target_include_directories(session PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+target_include_directories(session-message PRIVATE ${Protobuf_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(session-message PRIVATE ${Protobuf_LIBRARIES})
 target_include_directories(session PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(session PUBLIC ${Protobuf_LIBRARIES} sodium SQLiteCpp onionreq)
+target_link_libraries(session PUBLIC session-message sodium SQLiteCpp onionreq CLI11::CLI11 spdlog::spdlog)
 
 add_executable(session-cli cli/main.cpp)
 target_link_libraries(session-cli PUBLIC session)
